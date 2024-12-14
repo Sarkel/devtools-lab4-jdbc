@@ -1,6 +1,8 @@
 package org.example.operations;
 
-import org.example.DbHelper;
+import org.example.helpers.DbHelper;
+import org.example.db.Decision;
+import org.example.db.Status;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

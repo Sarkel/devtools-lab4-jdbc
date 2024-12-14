@@ -1,4 +1,4 @@
-package org.example;
+package org.example.helpers;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

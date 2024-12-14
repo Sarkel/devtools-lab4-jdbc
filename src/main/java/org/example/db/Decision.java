@@ -1,10 +1,9 @@
+package org.example.db;
+
 /*
     @author Joanna Ćwierz
     @author Maciej Wydrych
 */
-
-package org.example.operations;
-
 public enum Decision {
     REPAIR("naprawa"),
     REPLACE("wymiana"),
@@ -17,18 +16,14 @@ public enum Decision {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
     @Override
     public String toString() {
         return this.ordinal() + " - " + message;
     }
 
     public static void print() {
-        for (Decision decision : Decision.values()) {
-            System.out.println(decision);
+        for (Decision context : Decision.values()) {
+            System.out.println(context);
         }
     }
 }

@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.helpers.ConfigHelper;
+import org.example.helpers.DbHelper;
+
 /*
     @author Sebastian Kubalski
 */

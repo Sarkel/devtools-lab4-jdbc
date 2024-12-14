@@ -1,7 +1,7 @@
 package org.example.operations;
 
-import org.example.DbHelper;
-import org.example.Status;
+import org.example.db.Status;
+import org.example.helpers.DbHelper;
 
 import java.sql.SQLException;
 import java.sql.Statement;
