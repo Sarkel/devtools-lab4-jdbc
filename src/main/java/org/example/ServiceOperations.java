@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.operations.Context;
-import org.example.operations.ExitOperation;
-import org.example.operations.IServiceOperation;
-import org.example.operations.InsertOperation;
+import org.example.operations.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -14,7 +11,9 @@ public class ServiceOperations {
 
     private static final Map<Context, IServiceOperation> OPERATION_BY_CONTEXT = Map.ofEntries(
             Map.entry(Context.EXIT, new ExitOperation()),
-            Map.entry(Context.INSERT, new InsertOperation())
+            Map.entry(Context.INSERT, new InsertOperation()),
+            Map.entry(Context.SET_DECISION, new SetDecisionOperation()),
+            Map.entry(Context.READ, new ReadOperation())
     );
 
     public void operate() {

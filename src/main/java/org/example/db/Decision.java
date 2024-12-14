@@ -1,14 +1,18 @@
 package org.example.db;
 
+import lombok.Getter;
+
 /*
     @author Joanna Ćwierz
     @author Maciej Wydrych
 */
+@Getter
 public enum Decision {
     REPAIR("naprawa"),
     REPLACE("wymiana"),
     REFUND("zwrot"),
     REJECT("odmowa");
+
 
     private final String message;
 
@@ -18,7 +22,7 @@ public enum Decision {
 
     @Override
     public String toString() {
-        return this.ordinal() + " - " + message;
+        return this.ordinal() + " - " + this.getMessage();
     }
 
     public static void print() {

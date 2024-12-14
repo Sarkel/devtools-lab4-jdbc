@@ -1,12 +1,9 @@
 package org.example.operations;
 
-import org.example.helpers.DbHelper;
-import org.example.db.Decision;
-import org.example.db.Status;
+import org.example.db.DeviceServiceEntity;
+import org.example.db.DeviceServiceRepository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 /*
     @author Joanna Ćwierz
@@ -14,21 +11,14 @@ import java.sql.Statement;
 */
 
 public final class ReadOperation implements IServiceOperation {
+    private final DeviceServiceRepository deviceServiceRepository = new DeviceServiceRepository();
+
     @Override
     public void execute() {
-        try (Statement statement = DbHelper.getInstance().getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM device_service");
-            System.out.println("Zawartość tabeli w bazie danych:");
+        System.out.println("Zawartość tabeli w bazie danych:");
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String owner_name = resultSet.getString("owner_name");
-                int status = resultSet.getInt("status");
-                int decision = resultSet.getInt("decision");
-                System.out.println("ID: " + id + ", Właściciel: " + owner_name + ", Stan: " + Status.values()[status] + ", Decyzja: " + Decision.values()[decision]);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        List<DeviceServiceEntity> deviceServices = deviceServiceRepository.getAll();
+
+        deviceServices.forEach(System.out::println);
     }
 }

@@ -1,5 +1,7 @@
 package org.example.operations;
 
+import org.example.db.DeviceServiceEntity;
+import org.example.db.DeviceServiceRepository;
 import org.example.helpers.DbHelper;
 import org.example.db.Decision;
 import org.example.db.Status;
@@ -15,34 +17,36 @@ import java.util.Scanner;
 */
 
 public final class SetDecisionOperation implements IServiceOperation {
+    private final DeviceServiceRepository deviceServiceRepository = new DeviceServiceRepository();
+
     @Override
     public void execute() {
         System.out.println("Wprowadź identyfikator sprawy, dla której chcesz podjąć decyzję:");
         Scanner scanner = new Scanner(System.in);
         int id = scanner.nextInt();
 
-        try (Statement statement = DbHelper.getInstance().getConnection().createStatement()) {
+        System.out.println("Zawartość rekordu tabeli dla wprowadzonego identyfikatora:");
+        System.out.println(deviceServiceRepository.getById(id));
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM device_service WHERE id = '" + id + "'");
-            System.out.println("Zawartość rekordu tabeli dla wprowadzonego identyfikatora:");
-            System.out.println("ID: " + resultSet.getInt("id") + ", Właściciel: " + resultSet.getString("owner_name") + ", Stan: " + Status.values()[resultSet.getInt("status")] + ", Decyzja: " + Decision.values()[resultSet.getInt("decision")]);
+        System.out.println();
+        System.out.println("Podaj decyzję dla wprowadzonego identyfikatora sprawy:");
+        Decision.print();
 
-            System.out.println();
-            System.out.println("Podaj decyzję dla wprowadzonego identyfikatora sprawy:");
-            Decision.print();
+        scanner = new Scanner(System.in);
+        int rawDecision = scanner.nextInt();
 
-            int decision = scanner.nextInt();
-            statement.execute(
-                    "INSERT INTO device_service(decision) VALUES ('" + decision + "')"
-            );
-            System.out.println("Wprowadzono decyzję: " + decision);
+        Decision decision = Decision.values()[rawDecision];
 
-            resultSet = statement.executeQuery("SELECT * FROM device_service WHERE id = '" + id + "'");
-            System.out.println("Zawartość rekordu tabeli po wprowadzeniu decyzji:");
-            System.out.println("ID: " + resultSet.getInt("id") + ", Właściciel: " + resultSet.getString("owner_name") + ", Stan: " + Status.values()[resultSet.getInt("status")] + ", Decyzja: " + Decision.values()[resultSet.getInt("decision")]);
+        deviceServiceRepository.update(
+                DeviceServiceEntity.builder()
+                        .id(id)
+                        .decision(decision)
+                        .build()
+        );
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Wprowadzono decyzję: " + decision.getMessage());
+
+        System.out.println("Zawartość rekordu tabeli po wprowadzeniu decyzji:");
+        System.out.println(deviceServiceRepository.getById(id));
     }
 }
